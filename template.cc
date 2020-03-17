@@ -93,6 +93,21 @@ struct ModInt {
 const int MOD = 1e9 + 7; // TODO: 適宜ここを調整
 using mint = ModInt<MOD>;
 //modの時用のnCrの計算、
+struct combination {
+  vector<mint> fact, ifact;
+  combination(int n):fact(n+1),ifact(n+1) {
+    assert(n < MOD);
+    fact[0] = 1;
+    for (int i = 1; i <= n; ++i) fact[i] = fact[i-1]*i;
+    ifact[n] = fact[n].inv();
+    for (int i = n; i >= 1; --i) ifact[i-1] = ifact[i]*i;
+  }
+  mint operator()(int n, int k) {
+    if (k < 0 || k > n) return 0;
+    return fact[n]*ifact[k]*ifact[n-k];
+  }
+};
+//modの時用のnCrの計算、
 mint nCr(int n, int r){
   assert(!(n<r));
   assert(!(n<0 || r<0));
@@ -103,7 +118,7 @@ mint nCr(int n, int r){
   }
   return ans;
 }
-// --- MOD用end --- */
+// --- MOD用end ---*/
 
 /*
 // --- Union Find tree start ---
@@ -220,10 +235,61 @@ struct SegTree {
 // --- segment tree end ---
 */
 
+
+/*
+// --- 素数系のライブラリ ---
+//エラストテネスの篩
+struct Sieve {
+  int n;
+  vector<int> f, primes;
+  Sieve(int n=1):n(n), f(n+1) {
+    f[0] = f[1] = -1;
+    for (ll i = 2; i <= n; ++i) {
+      if (f[i]) continue;
+      //素数になった時は...?primesに素数を列挙しておく
+      primes.push_back(i);
+      f[i] = i;
+      for (ll j = i*i; j <= n; j += i) {
+        if (!f[j]) f[j] = i;
+      }
+    }
+  }
+
+  //素数か否かを判定する関数
+  bool isPrime(int x) { return f[x] == x;}
+
+  //素因数分解をする関数
+  vector<int> factorList(int x) {
+    vector<int> res;
+    while (x != 1) {
+      res.push_back(f[x]);
+      x /= f[x];
+    }
+    return res;
+  }
+  vector<pair<int,int>> factor(int x) {
+    vector<int> fl = factorList(x);
+    if (fl.size() == 0) return {};
+    vector<pair<int,int>> res(1, pair<int,int>(fl[0], 0));
+    for (int p : fl) {
+      if (res.back().first == p) {
+        res.back().second++;
+      } else {
+        res.emplace_back(p, 1);
+      }
+    }
+    return res;
+  }
+};
+// --- 素数系のライブラリend ---
+*/
+
+
 /* --- ここからコード --- */
 
 
-int main(){
 
+int main() {
+  
   return 0;
 }
