@@ -21,11 +21,107 @@
 #define maxf(T) [](T a, T b){return max(a, b);}
 #define rep(i,n) for(int i = 0; i < (n); ++i)
 #define all(x) (x).begin(), (x).end()
+#define INF 2000000000 //2e9
+#define LLINF 2000000000000000000ll //2e18
+#define sq(x) ((x)*(x))
 
 using namespace std;
 using ll = long long;
 
+
 /*
+// --- MOD用start ---
+template <int MOD>
+struct ModInt {
+  int val;
+
+  ModInt (ll v = 0) : val(v % MOD){
+    if(val < 0) val += MOD;
+  };
+
+  //unary operator
+  ModInt operator+() const {return ModInt(val);}
+  ModInt operator-() const {return ModInt(MOD-val);}
+  //invはfermatの小定理を用いて
+  ModInt inv() const { return this -> pow(MOD - 2);}
+
+  //arithmetic operator
+  //thisは自分自身を表し、それに対して+xのような演算がされるとして考えると良い。
+  ModInt operator+(const ModInt& x) const { return ModInt(*this) += x;}
+  ModInt operator-(const ModInt& x) const { return ModInt(*this) -= x;}
+  ModInt operator*(const ModInt& x) const { return ModInt(*this) *= x;}
+  ModInt operator/(const ModInt& x) const { return ModInt(*this) /= x;}
+
+  //省略表現について
+  ModInt& operator+=(const ModInt& x){
+    if((val += x.val) >= MOD) val -= MOD;
+    return *this;
+  }
+  ModInt& operator-=(const ModInt& x){
+    if((val -= x.val) <0) val += MOD;
+    return *this;
+  }
+  ModInt& operator*=(const ModInt& x){
+    val = (ll(val) * x.val) % MOD;
+    return *this;
+  }
+  ModInt& operator/=(const ModInt& x){
+    return *this *= x.inv();
+  }
+
+  //べき乗の計算のライブラリ化
+  ModInt pow(ll n) const{
+    //繰り返し二乗法でべき乗の計算を行う
+    auto x = ModInt(1);
+    auto b = *this;
+    while(n>0){
+      if(n & 1) x*= b;
+      n >>= 1;
+      b *= b;
+    }
+    return x;
+  }
+
+  //比較演算
+  bool operator==(const ModInt& b) const { return val == b.val; }
+  bool operator!=(const ModInt& b) const { return val != b.val; }
+
+  //IO
+  friend istream& operator>>(istream& is, ModInt& x) noexcept { return is >> x.val; }
+  friend ostream& operator<<(ostream& os, const ModInt& x) noexcept { return os << x.val; }
+};
+const int MOD = 1e9 + 7; // TODO: 適宜ここを調整
+using mint = ModInt<MOD>;
+//modの時用のnCrの計算、
+struct combination {
+  vector<mint> fact, ifact;
+  combination(int n):fact(n+1),ifact(n+1) {
+    assert(n < MOD);
+    fact[0] = 1;
+    for (int i = 1; i <= n; ++i) fact[i] = fact[i-1]*i;
+    ifact[n] = fact[n].inv();
+    for (int i = n; i >= 1; --i) ifact[i-1] = ifact[i]*i;
+  }
+  mint operator()(int n, int k) {
+    if (k < 0 || k > n) return 0;
+    return fact[n]*ifact[k]*ifact[n-k];
+  }
+};
+//modの時用のnCrの計算、
+mint nCr(int n, int r){
+  assert(!(n<r));
+  assert(!(n<0 || r<0));
+  mint ans = 1;
+  for(int i = 1; i <= r; i++){
+    ans *= n-i+1;
+    ans /= i;
+  }
+  return ans;
+}
+// --- MOD用end ---*/
+
+/*
+// --- Union Find tree start ---
 struct UnionFind {
     // union tree
     // used for tracking a set of elements partitioned into a number of disjoint subsets
@@ -62,7 +158,11 @@ struct UnionFind {
       return rx == ry;
     }
 };
+// --- Union Find tree end ---
+*/
 
+/*
+// --- segment tree start --- 
 template<typename T>
 struct SegTree {
   //segment tree
@@ -132,14 +232,14 @@ struct SegTree {
   }
   T query(int a, int b) { return query(a, b, 0, 0, size+1); }
 };
+// --- segment tree end ---
 */
 
 /* --- ここからコード --- */
 
-int main(){
-  int N,R;
-  cin >> N >> R;
-  if(N>=10) cout << R << endl;
-  else cout << R + 100 * (10 - N) << endl;
+
+
+int main() {
+  
   return 0;
 }
