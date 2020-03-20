@@ -240,6 +240,17 @@ struct SegTree {
 
 
 int main() {
-  
+  int N,K;
+  cin >> N;
+  cin >> K;
+  vector<int> H(N);
+  rep(i,N){cin >> H[i];}
+  sort(all(H));
+  reverse(all(H));
+  ll ans = 0;
+  for(int i = K; i < N; i++){
+    ans += H[i];
+  }
+  cout << ans  << endl;
   return 0;
 }

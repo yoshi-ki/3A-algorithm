@@ -240,6 +240,11 @@ struct SegTree {
 
 
 int main() {
-  
+  int H,N;
+  cin >> H >> N;
+  ll sum = 0;
+  rep(i,N){int A; cin >> A; sum += A;}
+  if(sum < H) {cout << "No" << endl;}
+  else cout << "Yes" << endl;
   return 0;
 }

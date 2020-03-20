@@ -235,11 +235,99 @@ struct SegTree {
 // --- segment tree end ---
 */
 
+
+/*
+// --- 素数系のライブラリ ---
+//エラストテネスの篩
+struct Sieve {
+  int n;
+  vector<int> f, primes;
+  Sieve(int n=1):n(n), f(n+1) {
+    f[0] = f[1] = -1;
+    for (ll i = 2; i <= n; ++i) {
+      if (f[i]) continue;
+      //素数になった時は...?primesに素数を列挙しておく
+      primes.push_back(i);
+      f[i] = i;
+      for (ll j = i*i; j <= n; j += i) {
+        if (!f[j]) f[j] = i;
+      }
+    }
+  }
+
+  //素数か否かを判定する関数
+  bool isPrime(int x) { return f[x] == x;}
+
+  //素因数分解をする関数
+  vector<int> factorList(int x) {
+    vector<int> res;
+    while (x != 1) {
+      res.push_back(f[x]);
+      x /= f[x];
+    }
+    return res;
+  }
+  vector<pair<int,int>> factor(int x) {
+    vector<int> fl = factorList(x);
+    if (fl.size() == 0) return {};
+    vector<pair<int,int>> res(1, pair<int,int>(fl[0], 0));
+    for (int p : fl) {
+      if (res.back().first == p) {
+        res.back().second++;
+      } else {
+        res.emplace_back(p, 1);
+      }
+    }
+    return res;
+  }
+};
+// --- 素数系のライブラリend ---
+*/
+
+
 /* --- ここからコード --- */
 
+ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
+ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 
 
 int main() {
-  
+  ll N, M;
+  cin >> N >> M;
+  ll temp_lcm = 1;
+  int flag = 0;
+  vector<ll>vc(N);
+  vector<ll> counter(N);
+  rep(i,N) cin >> vc[i];
+  rep(i, N)
+    {
+        int num = 0;
+        ll a;
+        a = vc[i];
+        while (a % 2 == 0)
+        {
+            a = a / 2;
+            num++;
+        }
+        counter[i] = num;
+    }
+    rep(i, N - 1)
+    {
+        if (counter[i] != counter[i + 1])
+        {
+            cout << 0 << endl;
+            //cout << "???" << endl;
+            return 0;
+        }
+    }
+  rep(i,N){
+    ll p;
+    p = vc[i];
+    temp_lcm = lcm(temp_lcm,p/2);
+    if(temp_lcm > M) {flag = 1; break;}
+  }
+  if(flag){cout << "0" << endl; return 0;}
+  cout << (M/temp_lcm+1)/2<< endl;
+
   return 0;
 }

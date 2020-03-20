@@ -240,6 +240,23 @@ struct SegTree {
 
 
 int main() {
-  
+  string s;
+  cin >> s;
+  reverse(all(s));
+  int n = s.size();
+  s = s + '0';
+  int dp [1000006][2];
+  rep(i,n+1){
+    if (i != 0){
+      //桁に操作がされていない方が0
+      dp[i][0] = min(dp[i-1][0] + (s[i]-'0'), dp[i-1][1] + (s[i]-'0') + 1);
+      dp[i][1] = min(dp[i-1][0] + 10 - (s[i]-'0'),dp[i-1][1] + 10 - (s[i]-'0') - 1);
+    }
+    else {
+      dp[i][0] = (s[0]-'0');
+      dp[i][1] = 10 - (s[0]-'0');
+    }
+  }
+  cout << min(dp[n][0],dp[n][1]) << endl;
   return 0;
 }

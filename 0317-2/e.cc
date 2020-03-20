@@ -29,7 +29,7 @@ using namespace std;
 using ll = long long;
 
 
-/*
+
 // --- MOD用start ---
 template <int MOD>
 struct ModInt {
@@ -118,7 +118,7 @@ mint nCr(int n, int r){
   }
   return ans;
 }
-// --- MOD用end ---*/
+// --- MOD用end ---
 
 /*
 // --- Union Find tree start ---
@@ -239,7 +239,80 @@ struct SegTree {
 
 
 
+//エラストテネスの篩
+struct Sieve {
+  int n;
+  vector<int> f, primes;
+  Sieve(int n=1):n(n), f(n+1) {
+    f[0] = f[1] = -1;
+    for (ll i = 2; i <= n; ++i) {
+      if (f[i]) continue;
+      //素数になった時は...?primesに素数を列挙しておく
+      primes.push_back(i);
+      f[i] = i;
+      for (ll j = i*i; j <= n; j += i) {
+        if (!f[j]) f[j] = i;
+      }
+    }
+  }
+
+  //素数か否かを判定する関数
+  bool isPrime(int x) { return f[x] == x;}
+
+  //素因数分解をする関数
+  vector<int> factorList(int x) {
+    vector<int> res;
+    while (x != 1) {
+      res.push_back(f[x]);
+      x /= f[x];
+    }
+    return res;
+  }
+  vector<pair<int,int>> factor(int x) {
+    vector<int> fl = factorList(x);
+    if (fl.size() == 0) return {};
+    vector<pair<int,int>> res(1, pair<int,int>(fl[0], 0));
+    for (int p : fl) {
+      if (res.back().first == p) {
+        res.back().second++;
+      } else {
+        res.emplace_back(p, 1);
+      }
+    }
+    return res;
+  }
+};
+
+
+
+
 int main() {
-  
+  Sieve sieve(1e6+5);
+  int N;
+  cin >> N;
+  vector<int>A(N);
+  rep(i,N){
+    cin >> A[i];
+  }
+  map<int,int> mp;
+  rep(i,N) {
+    auto f = sieve.factor(A[i]);
+    for(auto p : f){
+      //こうすることでmpに公倍数の素因数分解が保存される
+      mp[p.first] = max(mp[p.first],p.second);
+    }
+  }
+
+  mint lcm = 1;
+  for(auto p : mp){
+    rep(i,p.second) lcm *= p.first;
+  }
+
+  mint ans = 0;
+  rep(i,N){
+    mint b = lcm/A[i];
+    ans += b;
+  }
+  cout << ans << endl;
   return 0;
 }

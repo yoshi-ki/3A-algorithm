@@ -29,7 +29,7 @@ using namespace std;
 using ll = long long;
 
 
-/*
+
 // --- MOD用start ---
 template <int MOD>
 struct ModInt {
@@ -118,7 +118,7 @@ mint nCr(int n, int r){
   }
   return ans;
 }
-// --- MOD用end ---*/
+// --- MOD用end --- 
 
 /*
 // --- Union Find tree start ---
@@ -240,6 +240,14 @@ struct SegTree {
 
 
 int main() {
-  
+  int n, k;
+  cin >> n >> k;
+  k = min(n-1,k);
+  combination c(n);
+  mint ans = 0;
+  for (int i = 0; i <= k; i++){
+    ans += c(n,i) * c((n-i-1)+i, i);
+  }
+  cout << ans << endl;
   return 0;
 }

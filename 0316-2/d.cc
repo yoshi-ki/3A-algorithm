@@ -240,6 +240,26 @@ struct SegTree {
 
 
 int main() {
-  
+  int N,K;
+  cin >> N >> K;
+  int sum = 0;
+  deque<int> deq;
+  rep(i,K){
+    int p;
+    cin >> p;
+    sum += p;
+    deq.push_back(p);
+  }
+  int ans = sum;
+  rep(i,N-K){
+    int p;
+    cin >> p;
+    sum -= deq.front();
+    deq.pop_front();
+    sum += p;
+    ans = max(ans,sum);
+    deq.push_back(p);
+  }
+  cout << (double)((ans + K) / 2.0) << endl;
   return 0;
 }

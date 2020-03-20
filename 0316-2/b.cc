@@ -240,6 +240,8 @@ struct SegTree {
 
 
 int main() {
-  
+  string s;
+  cin >> s;
+  rep(i,s.size()) cout << 'x' ;
   return 0;
 }

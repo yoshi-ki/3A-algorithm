@@ -240,6 +240,18 @@ struct SegTree {
 
 
 int main() {
-  
+  int N;
+  cin >> N;
+  vector<int> A(N);
+  int a;
+  map<int,int>memo;
+  int flag = 1;
+  for (int i = 0; i < N && flag!= 0; i++) {
+    cin >> a;
+    if (memo[a] == 1) {flag = 0;}
+    memo[a] += 1;
+  }
+  if(flag) cout << "YES" ;
+  else cout << "NO" ;
   return 0;
 }

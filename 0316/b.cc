@@ -240,6 +240,11 @@ struct SegTree {
 
 
 int main() {
-  
+  int N;
+  cin >> N;
+  int a;
+  bool ans = true;
+  rep(i,N){cin >> a; if(a%2 == 0){if(a%3!=0&&a%5!=0)ans = false;}}
+  if(ans){cout<<"APPROVED"<<endl;}else{cout<<"DENIED"<<endl;}
   return 0;
 }

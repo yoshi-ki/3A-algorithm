@@ -240,6 +240,18 @@ struct SegTree {
 
 
 int main() {
-  
+  int N;
+  cin >> N;
+  map<string,int>memo;
+  string s;
+  int maxv = 0;
+  rep(i,N){cin >> s; memo[s] += 1;}
+  for(const auto& x : memo){
+    int v = x.second;
+    if(v > maxv) maxv = v;
+  }
+  for(auto it = memo.begin(); it != memo.end(); it++){
+    if(it->second == maxv) cout << it->first << endl;
+  }
   return 0;
 }

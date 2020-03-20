@@ -235,11 +235,101 @@ struct SegTree {
 // --- segment tree end ---
 */
 
+
+/*
+// --- 素数系のライブラリ ---
+//エラストテネスの篩
+struct Sieve {
+  int n;
+  vector<int> f, primes;
+  Sieve(int n=1):n(n), f(n+1) {
+    f[0] = f[1] = -1;
+    for (ll i = 2; i <= n; ++i) {
+      if (f[i]) continue;
+      //素数になった時は...?primesに素数を列挙しておく
+      primes.push_back(i);
+      f[i] = i;
+      for (ll j = i*i; j <= n; j += i) {
+        if (!f[j]) f[j] = i;
+      }
+    }
+  }
+
+  //素数か否かを判定する関数
+  bool isPrime(int x) { return f[x] == x;}
+
+  //素因数分解をする関数
+  vector<int> factorList(int x) {
+    vector<int> res;
+    while (x != 1) {
+      res.push_back(f[x]);
+      x /= f[x];
+    }
+    return res;
+  }
+  vector<pair<int,int>> factor(int x) {
+    vector<int> fl = factorList(x);
+    if (fl.size() == 0) return {};
+    vector<pair<int,int>> res(1, pair<int,int>(fl[0], 0));
+    for (int p : fl) {
+      if (res.back().first == p) {
+        res.back().second++;
+      } else {
+        res.emplace_back(p, 1);
+      }
+    }
+    return res;
+  }
+};
+// --- 素数系のライブラリend ---
+*/
+
+
 /* --- ここからコード --- */
 
 
+int disti[] = {0,1,0,-1};
+int distj[] = {1,0,-1,0};
 
 int main() {
-  
+  int H, W;
+  cin >> H >> W;
+  vector<string> s(H);
+  rep(i,H) {cin >> s[i];}
+  int ans = 0;
+  //始点それぞれについてloop
+  rep(si,H) rep(sj,W){
+    if(s[si][sj] == '#') continue;
+    vector <vector<int>> dist(H,vector<int> (W,INF));
+    dist[si][sj] = 0;
+    queue <pair<int,int>> q;
+    q.push(pair<int,int>(si,sj));
+    //BFS
+    while(!q.empty()){
+      int i = q.front().first;
+      int j = q.front().second;
+      q.pop();
+      rep(k,4){
+        int ni = i + disti[k];
+        int nj = j + distj[k];
+        if (ni >= 0 && nj >= 0 && ni < H && nj < W){
+          if(s[ni][nj] != '#'){
+            if (dist[ni][nj] != INF) continue;
+            dist[ni][nj] = dist[i][j] + 1;
+            q.push(pair<int,int> (ni,nj));
+          }
+        }
+      }
+    }
+    //loopが終わったので、次に値の更新に移る
+    int temp = 0;
+    rep(i,H)rep(j,W) {
+      if(dist[i][j] == INF) continue;
+      temp = max(temp,dist[i][j]);
+    }
+    ans = max(temp,ans); 
+  }
+  cout << ans << endl;
+
   return 0;
 }

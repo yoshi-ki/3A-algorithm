@@ -240,6 +240,32 @@ struct SegTree {
 
 
 int main() {
-  
+  int H, N;
+  cin >> H >> N;
+  vector<int> A(N);
+  vector<int> B(N);
+  int maxa = 0;
+  rep(i,N){
+    cin >> A[i];
+    maxa = max(maxa,A[i]);
+    cin >> B[i];
+  }
+  int dp[20005];
+  rep(i,20005) dp[i] = INF;
+  dp[0] = 0;
+  for(int i = 1; i < H+maxa+1; i++){
+    int temp = INF;
+    rep(j,N){
+      if(i-A[j] >= 0){
+        temp = min(dp[i-A[j]] + B[j],temp);
+      }
+    }
+    dp[i] = temp;
+  }
+  int ans = INF;
+  for(int j = H; j < H+maxa+1; j++){
+    ans = min(ans,dp[j]);
+  }
+  cout << ans << endl;
   return 0;
 }

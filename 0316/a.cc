@@ -240,6 +240,12 @@ struct SegTree {
 
 
 int main() {
-  
+  int A,B,C;
+  cin >> A >> B >> C;
+  if(A == B && A == C){cout << "No" << endl; return 0;}
+  if(A == B) { cout << "Yes" << endl; return 0;}
+  if(A == C) { cout << "Yes" << endl; return 0;}
+  if(C == B) { cout << "Yes" << endl; return 0;}
+  cout << "No" << endl;
   return 0;
 }

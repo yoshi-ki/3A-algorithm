@@ -29,7 +29,7 @@ using namespace std;
 using ll = long long;
 
 
-/*
+
 // --- MOD用start ---
 template <int MOD>
 struct ModInt {
@@ -118,7 +118,7 @@ mint nCr(int n, int r){
   }
   return ans;
 }
-// --- MOD用end ---*/
+// --- MOD用end ---
 
 /*
 // --- Union Find tree start ---
@@ -235,11 +235,80 @@ struct SegTree {
 // --- segment tree end ---
 */
 
+
+/*
+// --- 素数系のライブラリ ---
+//エラストテネスの篩
+struct Sieve {
+  int n;
+  vector<int> f, primes;
+  Sieve(int n=1):n(n), f(n+1) {
+    f[0] = f[1] = -1;
+    for (ll i = 2; i <= n; ++i) {
+      if (f[i]) continue;
+      //素数になった時は...?primesに素数を列挙しておく
+      primes.push_back(i);
+      f[i] = i;
+      for (ll j = i*i; j <= n; j += i) {
+        if (!f[j]) f[j] = i;
+      }
+    }
+  }
+
+  //素数か否かを判定する関数
+  bool isPrime(int x) { return f[x] == x;}
+
+  //素因数分解をする関数
+  vector<int> factorList(int x) {
+    vector<int> res;
+    while (x != 1) {
+      res.push_back(f[x]);
+      x /= f[x];
+    }
+    return res;
+  }
+  vector<pair<int,int>> factor(int x) {
+    vector<int> fl = factorList(x);
+    if (fl.size() == 0) return {};
+    vector<pair<int,int>> res(1, pair<int,int>(fl[0], 0));
+    for (int p : fl) {
+      if (res.back().first == p) {
+        res.back().second++;
+      } else {
+        res.emplace_back(p, 1);
+      }
+    }
+    return res;
+  }
+};
+// --- 素数系のライブラリend ---
+*/
+
+
 /* --- ここからコード --- */
 
 
 
 int main() {
-  
+  int N, K;
+  cin >> N >> K;
+  combination combination(N);
+  vector<int> A(N);
+  rep(i,N) cin >> A[i];
+  sort(all(A));
+  queue<int> q_max;
+  queue<int> q_min;
+  rep(i,N) {
+    q_min.push(A[i]);
+    q_max.push(A[N-i-1]);
+  }
+  mint ans = 0;
+  rep(i,N-K+1){
+    ans += combination(N-i-1,K-1) * (q_max.front() - q_min.front());
+    q_max.pop();
+    q_min.pop();
+  }
+  cout << ans << endl;
+
   return 0;
 }

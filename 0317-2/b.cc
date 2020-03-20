@@ -240,6 +240,13 @@ struct SegTree {
 
 
 int main() {
-  
+  int A,B;
+  cin >> A >> B;
+  if(A > B){
+    rep(i,A)cout << B ;
+  }
+  else{
+    rep(i,B)cout << A ;
+  }
   return 0;
 }

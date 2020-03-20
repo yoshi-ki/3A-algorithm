@@ -240,6 +240,13 @@ struct SegTree {
 
 
 int main() {
-  
+  ll H;
+  cin >> H;
+  ll ans = 1;
+  while(H > 1){
+    ans = ans * 2 + 1;
+    H = H / 2;
+  }
+  cout << ans << endl;
   return 0;
 }

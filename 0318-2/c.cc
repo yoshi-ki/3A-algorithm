@@ -235,11 +235,84 @@ struct SegTree {
 // --- segment tree end ---
 */
 
+
+/*
+// --- 素数系のライブラリ ---
+//エラストテネスの篩
+struct Sieve {
+  int n;
+  vector<int> f, primes;
+  Sieve(int n=1):n(n), f(n+1) {
+    f[0] = f[1] = -1;
+    for (ll i = 2; i <= n; ++i) {
+      if (f[i]) continue;
+      //素数になった時は...?primesに素数を列挙しておく
+      primes.push_back(i);
+      f[i] = i;
+      for (ll j = i*i; j <= n; j += i) {
+        if (!f[j]) f[j] = i;
+      }
+    }
+  }
+
+  //素数か否かを判定する関数
+  bool isPrime(int x) { return f[x] == x;}
+
+  //素因数分解をする関数
+  vector<int> factorList(int x) {
+    vector<int> res;
+    while (x != 1) {
+      res.push_back(f[x]);
+      x /= f[x];
+    }
+    return res;
+  }
+  vector<pair<int,int>> factor(int x) {
+    vector<int> fl = factorList(x);
+    if (fl.size() == 0) return {};
+    vector<pair<int,int>> res(1, pair<int,int>(fl[0], 0));
+    for (int p : fl) {
+      if (res.back().first == p) {
+        res.back().second++;
+      } else {
+        res.emplace_back(p, 1);
+      }
+    }
+    return res;
+  }
+};
+// --- 素数系のライブラリend ---
+*/
+
+
 /* --- ここからコード --- */
 
+int N;
 
+int fact(int n){
+  if (n==0) return 1;
+  return n * fact(n-1);
+}
+
+int count(vector<int> s, int n){
+  vector<int>v(n);
+  rep(i,n) v[i] = i + 1;
+  int temp = 0;
+  int ans;
+  do{
+    temp++;
+    if (v==s) ans = temp;
+  }while(next_permutation(all(v)));
+  return ans;
+}
 
 int main() {
-  
+  cin >> N;
+  //それ以下の条件を満たす数を数える関数を作成する
+  vector<int> p(N);
+  vector<int> q(N);
+  rep(i,N) cin >> p[i];
+  rep(i,N) cin >> q[i];
+  cout << abs(count(p,N) - count(q,N)) << endl;
   return 0;
 }

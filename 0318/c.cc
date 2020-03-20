@@ -240,6 +240,31 @@ struct SegTree {
 
 
 int main() {
-  
+  int N,M;
+  cin >> N >> M;
+  map<int,int> mp;
+  map<int,int> wamp;
+  rep(i,N) mp[i+1] = 0;
+  rep(i,N) wamp[i+1] = 0;
+  int penalty = 0;
+  rep(i,M){
+    int p;
+    string s;
+    cin >> p >> s;
+    if(s=="WA"){
+      if(mp[p] == 0) wamp[p] = wamp[p] + 1;
+    }
+    else{
+      if(mp[p] == 0){
+        penalty = penalty + wamp[p];
+        mp[p] = 1;
+      }
+    }
+  }
+  int ac = 0;
+  rep(i,N) {
+    if(mp[i+1]) ac++;
+  }
+  cout << ac << " " << penalty << endl;
   return 0;
 }

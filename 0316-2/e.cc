@@ -237,9 +237,107 @@ struct SegTree {
 
 /* --- ここからコード --- */
 
+//0を除いた数を数える関数
+int helper(int N){
+  //二桁の場合と3桁の場合で場合分け
+  int ans = 0;
+  if(N<100){
+    ans += ((N/10)-1) * 9 + (N%10);
+  }
+  else {
+    ans += (N/100) * helper(99) + helper(N%100);
+  }
+  return ans;
+}
+
+int nCr(int n, int r){
+  assert(!(n<r));
+  assert(!(n<0 || r<0));
+  int ans = 1;
+  for(int i = 1; i <= r; i++){
+    ans *= n-i+1;
+    ans /= i;
+  }
+  return ans;
+}
+
 
 
 int main() {
-  
+  string N;
+  int K;
+  cin >> N;
+  cin >> K;
+  ll dp[105][4][2] ;
+  rep(i,105)rep(j,4)rep(k,2) dp[i][j][k] = 0;
+  dp[0][0][0] = 1;
+  rep(i,N.size())rep(j,4)rep(k,2){
+    int nd = N[i]-'0';
+    rep(d,10){
+      int ni = i+1, nj = j, nk = k;
+      if(d!=0) nj++;
+      if(nj > K) continue;
+      if(k==0){
+        if(nd < d) continue;
+        if(nd > d) nk = 1;
+      }
+      dp[ni][nj][nk] += dp[i][j][k];
+    }
+  }
+  cout << dp[N.size()][K][0] + dp[N.size()][K][1] << endl;
+  /*
+  reverse(all(N));
+  N = N + '0';
+  rep(i,N.size()){
+      if(i==1){
+        dp[i][0] = 1;
+      }
+      else if(i == 1){
+        dp[i][0] = 1;
+        dp[i][1] = dp[i-1][0] + (N[i]-'0') * 1 + dp[i-1][1];
+      }
+      else if (i==2){
+        dp[i][0] = 1;
+        dp[i][1] = dp[i-1][0] + (N[i]-'0') * 1 + dp[i-1][1];
+        dp[i][2] = dp[i-1][1] + (N[i]-'0') * (i-1) * 9 + dp[i-1][2];
+      }
+      else{
+        dp[i][0] = 1;
+        dp[i][1] = dp[i-1][0] + (N[i]-'0') * 1 + dp[i-1][1];
+        dp[i][2] = dp[i-1][1] + (N[i]-'0') * (i-1) * 9 + dp[i-1][2];
+        dp[i][3] = dp[i-1][2] + (N[i]-'0') * (i-1) * (i-2) * helper(99) / 2 + dp[i-1][3];
+      }
+  }
+  cout << dp[N.size()-1][K] << endl;
+  */
+  /*
+  if(K == 1){
+    ans += (N.size() - K) * 9;
+    ans += N[0] - '0';
+  }
+  else if (K == 2){
+    if (N.size() > 2){
+      //ここにさらに場合の数の計算が必要
+      rep(i,(N.size() - K) + 1){
+        if(i >= 2){
+          ans += nCr(i,2) * helper(99);
+        }
+      }
+      cout << helper(99) << endl;
+      ans += nCr((N.size() - K)+1,2) * helper(99);
+      cout << ans << endl;
+      ans += helper((N[0] - '0')*10 + (N[1] - '0'));
+      //あと最初だけ固定するものが残ってしまっているので
+    }
+    else{ans += (N.size() - K) * helper(99);
+      ans += helper((N[0] - '0')*10 + (N[1] - '0'));}
+  }
+  else {
+    if (N.size() >= 3){
+      ans += (N.size() - K) * helper(999);
+      ans += helper((N[0] - '0')*100 + (N[1] - '0') * 10 + (N[2] - '0'));
+    }
+  }
+  */
   return 0;
 }
