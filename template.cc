@@ -15,6 +15,8 @@
 #include <list>
 #include <cassert>
 #include <deque>
+#include <iomanip>
+
 
 #define addf(T) [](T a, T b){return (a + b);}
 #define minf(T) [](T a, T b){return min(a, b);}
@@ -284,6 +286,8 @@ struct Sieve {
 // --- 素数系のライブラリend ---
 */
 
+//when you want to cout double ...
+//cout << fixed << setprecision(14) << (double)(i*i*i) << endl;
 
 /* --- ここからコード --- */
 
