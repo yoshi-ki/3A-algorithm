@@ -292,8 +292,43 @@ struct Sieve {
 /* --- ここからコード --- */
 
 
-
 int main() {
-  
+  int n;
+  cin >> n;
+  vector<tuple<int,int,int>> v(n*n);
+  //input人の番号は1からふるs
+  rep(i,n){
+    int a;
+    cin >> a;
+    rep(j,a){
+      int x,y;
+      cin >> x >> y;
+      v.push_back(make_tuple(i+1,x,y));
+    }
+  }
+  //1ならば正直者
+  //1<<n通りの全探索
+  int ans = 0;
+
+  rep(i,1<<n){
+    int flag = 1;
+    rep(j,v.size()){
+      if(!flag) break;
+      int now = get<0>(v[j]);
+      if(i >> (now-1)&1){
+        int x = get<1>(v[j]);
+        int y = get<2>(v[j]);
+        if((i >> (x-1) & 1) != y) flag = 0;
+      }else continue;
+    }
+    if(flag) {
+      int temp = 0;
+      rep(k,n){
+        if(i>>k & 1) temp++;
+      }
+      ans = max(ans,temp);
+    }//総量を出力
+  }
+  cout << ans << endl;
   return 0;
 }

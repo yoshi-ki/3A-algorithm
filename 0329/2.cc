@@ -294,6 +294,23 @@ struct Sieve {
 
 
 int main() {
-  
+  int n,k;
+  cin >> n >> k;
+  vector<int>S(n);
+  rep(i,n) cin >> S[i];
+  rep(i,n) if(S[i] == 0) {cout << n << endl; return 0;}
+  ll sum = 1;
+  ll t = 0;
+  ll ans = 0;
+  rep(s,n){
+    while(t<n && sum * S[t] <= k){
+      sum *= S[t];
+      t++;
+    }
+    ans = max(ans, t-s);
+    if(s==t) t++;
+    else sum/= S[s];
+  }
+  cout << ans << endl;
   return 0;
 }

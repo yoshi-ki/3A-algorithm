@@ -294,6 +294,63 @@ struct Sieve {
 
 
 int main() {
-  
+  ll x,y;
+  cin >> x >> y;
+  ll a,b,c;
+  cin >> a >> b >> c;
+  vector<ll>p(a);
+  vector<ll>q(b);
+  vector<ll>r(c);
+  rep(i,a) cin >> p[i];
+  rep(i,b) cin >> q[i];
+  rep(i,c) cin >> r[i];
+  sort(all(p));
+  sort(all(q));
+  sort(all(r));
+  reverse(all(p));
+  reverse(all(q));
+  deque <ll> p2;
+  deque <ll> q2;
+  deque <ll> r2;
+  r2.push_front(0);
+  ll ans = 0;
+  rep(i,x) {p2.push_back(p[i]); ans += p[i];}
+  rep(i,y) {q2.push_back(q[i]); ans += q[i];}
+  p2.push_front(LLINF);
+  q2.push_front(LLINF);
+  rep(i,c) r2.push_front(r[i]);
+  while(r2.front() > p2.back() || r2.front() > q2.back()){
+    if(p2.back() < q2.back()){
+      //pの方を優先的に更新
+      if(r2.front() > p2.back()){
+        //pの更新
+        ans = ans - p2.back() + r2.front();
+        p2.pop_back();
+        r2.pop_front();
+      }
+      else{
+        //qを更新
+        ans = ans - q2.back() + r2.front();
+        q2.pop_back();
+        r2.pop_front();
+      }
+    }
+    else{
+      //qの方を優先的に更新
+      if(r2.front() > q2.back()){
+        //pの更新
+        ans = ans - q2.back() + r2.front();
+        q2.pop_back();
+        r2.pop_front();
+      }
+      else{
+        //pを更新
+        ans = ans - p2.back() + r2.front();
+        p2.pop_back();
+        r2.pop_front();
+      }
+    }
+  }
+  cout << ans << endl;
   return 0;
 }

@@ -290,10 +290,69 @@ struct Sieve {
 //cout << fixed << setprecision(14) << (double)(i*i*i) << endl;
 
 /* --- ここからコード --- */
+int T = 0;
+vector<vector<int>> g;
+vector<int> tin;
+vector<int> tout;
+vector<int> p,d;
 
+void dfs(int v, int par = -1, int dep = 0){
+  tin[v] = T++;
+  p[v] = par;
+  d[v] = dep;
+  for (auto to : g[v]){
+    if(to == par) continue;
+    dfs(to,v,dep+1);
+  }
+  tout[v] = T++;
 
+}
+
+bool isAnc(int u, int v){
+  return tin[u] <= tin[v] && tout[v] <= tout[u];
+}
 
 int main() {
-  
+  int n,m;
+  cin >> n >> m;
+  T=0;
+  p = vector<int>(n);
+  d = vector<int>(n);
+  tin = vector<int>(n);
+  tout = vector<int>(n);
+  g = vector<vector<int>>(n);
+  rep(i,n-1){
+    int x,y;
+    cin >> x >> y;
+    x--; y--;
+    g[x].push_back(y);
+    g[y].push_back(x);
+  }
+  dfs(0);
+
+  rep(i,m){
+    int k;
+    cin >> k;
+    vector<int> v(k);
+    rep(j,k) cin >> v[j];
+    rep(j,k) v[j]--;
+    int u = v[0];
+    rep(j,k) if(d[v[j]] > d[u]) u = v[j];
+    rep(j,k) {
+      if (v[j] == u) continue;
+      if(p[v[j]] != -1) v[j] = p[v[j]];
+    }
+    bool ans = true;
+    rep(j,k) ans &= isAnc(v[j],u);
+    if(ans) cout << "YES" << endl;
+    else cout << "NO" << endl;
+
+
+
+
+
+  }
+
+
   return 0;
 }

@@ -291,9 +291,41 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+int ax[4] = {1,0,-1,0};
+int ay[4] = {0,1,0,-1};
 
+int C[50][50];
 
 int main() {
-  
+  int r,c;
+  cin >> r >> c;
+  int sx,sy;
+  cin >> sx >> sy;
+  int gy,gx;
+  cin >> gx >> gy;
+  rep(i,r)rep(j,c){
+    char inp;
+    cin >> inp;
+    if(inp == '.')C[i][j] = -1;
+    else C[i][j] = -2;
+  }
+  sx--;sy--;
+  gx--;gy--;
+  deque <pair<int,int>> q;
+  q.push_front(pair<int,int>(sx,sy));
+  while(!q.empty()){
+    int tempx = q.back().first;
+    int tempy = q.back().second;
+    q.pop_back();
+    rep(i,4){
+      if(tempx+ax[i]>=0 && tempx+ax[i] <= r-1 && tempy+ay[i]>=0 && tempy+ay[i] <= c-1){
+        if(C[tempx+ax[i]][tempy+ay[i]]==-1) {
+          C[tempx+ax[i]][tempy+ay[i]] = C[tempx][tempy] + 1;
+          q.push_front(pair<int,int>(tempx+ax[i],tempy+ay[i]));
+        }
+      }
+    }
+  }
+  cout << C[gx][gy] + 1<< endl;
   return 0;
 }

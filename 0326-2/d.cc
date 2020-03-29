@@ -294,6 +294,60 @@ struct Sieve {
 
 
 int main() {
-  
+  int T;
+  cin >> T;
+  rep(test,T){
+    int n;
+    cin >> n; //number of carousel
+
+    if(n%2 == 1){
+      int equal = 1;
+      int diff = 1;
+      int start;
+      int same_place = 500000;
+      cin >> start;
+      int temp = start;
+      int temp2;
+      rep(i,n-1){
+        cin >> temp2;
+        if(temp2 == temp) {diff = 0; same_place = i+1;}
+        else{equal = 0;}
+        temp = temp2;
+      }
+      if(temp != start) equal = 0; else {diff = 0;same_place = n;}
+      //equal = 1 means all values are equal
+      //diff = 1 means all values are different
+      if(equal){cout << 1 << endl;rep(i,n)cout << 1 << " "; cout <<"" << endl;}
+      else if(diff){cout << 3 << endl; rep(i,(n-1)/2){cout << 1 << " " << 2 << " ";} cout << 3<<" ";cout <<"" << endl;}
+      else{
+        //2 coloring
+        cout << 2 << endl;
+        int flag = 0;
+        rep(i,n){
+          if(same_place-1 == i){if(flag){cout << 1 << " ";}else {cout << 2 << " ";}}
+          else{if(flag){cout << 1 << " "; flag = 0;}else {cout << 2 << " "; flag = 1;}}
+        }
+        cout <<"" << endl;
+      }
+
+    }
+
+
+    if(n%2==0){
+      int diff = 0;
+      int start;
+      cin >> start;
+      int temp = start;
+      int temp2;
+      rep(i,n-1){
+        cin >> temp2;
+        if(temp2 != temp) diff = 1;
+        temp = temp2;
+      }
+      if(temp != start) diff = 1;
+      if(diff) {cout << 2 << endl; rep(i,n/2){cout << 1 << " " << 2 << " ";}cout <<"" << endl;}
+      else {cout << 1 << endl;rep(i,n)cout << 1 << " "; cout <<"" << endl;}
+    }
+  }
   return 0;
 }

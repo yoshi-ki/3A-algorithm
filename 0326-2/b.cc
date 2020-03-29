@@ -294,6 +294,24 @@ struct Sieve {
 
 
 int main() {
-  
+  int T;
+  cin >> T;
+  rep(test,T){
+    int n,k;
+    cin >> n >> k;
+    string s = "";
+    rep(i,n) s = s + "a";
+    ll temp = 1;
+    ll sum = 0;
+    while(sum + temp < k){
+      sum = sum + temp;
+      temp++;
+    }
+    //i banme
+    int i = k - sum;
+    s[n-1-temp] = 'b';
+    s[n-i] = 'b';
+    cout << s << endl;
+  }
   return 0;
 }

@@ -290,10 +290,20 @@ struct Sieve {
 //cout << fixed << setprecision(14) << (double)(i*i*i) << endl;
 
 /* --- ここからコード --- */
-
-
+int n;
 
 int main() {
-  
+  int x,y;
+  cin >> n >> x >> y;
+  vector <int> d(n);
+  rep(i,n) d[i] = 0;
+  for(int i = 1; i <= n; i++){
+    for(int j = 1; j <= n; j++){
+      if(j < i) continue;
+      int distance = min (j-i,(abs(x-i) + 1 + abs(j-y)));
+      d[distance] = d[distance] + 1;
+    }
+  }
+  rep(i,n-1) cout << d[i+1] << endl;
   return 0;
 }

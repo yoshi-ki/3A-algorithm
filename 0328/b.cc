@@ -294,6 +294,12 @@ struct Sieve {
 
 
 int main() {
-  
+  ll ans = 0;
+  int n;
+  cin >> n;
+  while(n>=500){ans += 1000; n= n-500;}
+  while(n>=5){ans += 5; n = n-5;}
+  cout << ans << endl;
+
   return 0;
 }

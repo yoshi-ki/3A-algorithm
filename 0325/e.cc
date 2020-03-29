@@ -291,9 +291,30 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+int A[80][80];
+int B[80][80];
+bool dp[80][80][60000];
 
 
 int main() {
-  
+  rep(i,80)rep(j,80)rep(k,60000)dp[i][j][k]=false;
+  int H,W;
+  cin >> H >> W;
+  rep(i,H)rep(j,W) cin >> A[i][j];
+  rep(i,H)rep(j,W) cin >> B[i][j];
+  rep(i,H)rep(j,W){
+    if(i==0&&j==0) {dp[i][j][abs(A[i][j]-B[i][j])] = true; continue;}
+    int diff = abs(A[i][j] - B[i][j]);
+    rep(k,30000){
+      if(i==0) dp[i][j][k] = (dp[i][j-1][k+diff] || dp[i][j-1][abs(k-diff)]);
+      else if(j==0) dp[i][j][k] = (dp[i-1][j][k+diff] || dp[i-1][j][abs(k-diff)]);
+      else{dp[i][j][k] = (dp[i-1][j][abs(k-diff)] || dp[i][j-1][abs(k-diff)] || dp[i-1][j][k+diff] || dp[i][j-1][k+diff]);}
+    }
+  }
+  int ans = 0;
+  rep(i,30000){
+    if(dp[H-1][W-1][i] == true) {ans = i; break;}
+  }
+  cout << ans << endl;
   return 0;
 }

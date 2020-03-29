@@ -31,7 +31,7 @@ using namespace std;
 using ll = long long;
 
 
-/*
+
 // --- MOD用start ---
 template <int MOD>
 struct ModInt {
@@ -120,7 +120,7 @@ mint nCr(int n, int r){
   }
   return ans;
 }
-// --- MOD用end ---*/
+// --- MOD用end ---
 
 /*
 // --- Union Find tree start ---
@@ -294,6 +294,37 @@ struct Sieve {
 
 
 int main() {
-  
+  int n;
+  cin >> n;
+  vector<ll> v(60);
+  rep(i,60) v[i] = 0;
+  rep(i,n){
+    ll a;
+    cin >> a;
+    int temp = 0;
+    while(a >>temp > 0){
+      if (a >> temp & 1) v[temp]++;
+      temp++;
+    }
+  }
+  /*
+  ll ans = 0;
+  ll temp2 = 1;
+  rep(i,v.size()){
+    ll hoge = ((n - v[i]) * v[i]) % MOD;
+    ans = (ans + (hoge * temp2) % MOD) % MOD;
+    temp2 = (temp2 * 2) % MOD;
+  }
+  cout << ans << endl;
+  */
+  mint ans = 0;
+  mint temp2 = 1;
+  rep(i,v.size()){
+    mint hoge = ((n - v[i]) * v[i]) % MOD;
+    ans += hoge * temp2;
+    temp2 *= 2;
+  }
+  cout << ans << endl;
+
   return 0;
 }

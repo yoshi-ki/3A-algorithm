@@ -294,6 +294,16 @@ struct Sieve {
 
 
 int main() {
-  
+  ll a,b,x;
+  cin >> a >> b >> x;
+  ll l = 0;
+  ll r = 1000000001;
+  while(r-l>1){
+    ll now = (l+r)/2;
+    ll price = a * now + b * (int)(log10(now)+1);
+    if(x>=price) l = now;
+    else r = now;
+  }
+  cout << l << endl;
   return 0;
 }

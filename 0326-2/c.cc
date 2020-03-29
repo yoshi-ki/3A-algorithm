@@ -294,6 +294,34 @@ struct Sieve {
 
 
 int main() {
-  
+  int T;
+  cin >> T;
+  rep(test,T){
+    int n;
+    cin >> n; //length of x
+    string s;
+    cin >> s;
+    string out1 = "";
+    string out2 = "";
+    int flag = 1;
+    rep(i,s.size()){
+      if(flag){
+        if(s[i] == '0'){out1 += "0"; out2 +="0";}
+        else if (s[i] == '2'){out1 += "1"; out2 +="1";}
+        else{
+          flag = 0; out1 +="1";out2+="0";
+        }
+      }
+      else{
+        if(s[i] == '0'){out1 += "0"; out2 +="0";}
+        else if (s[i] == '2'){out1 += "0"; out2 +="2";}
+        else{
+          out1 +="0";out2+="1";
+        }
+      }
+    }
+    cout << out1 << endl;
+    cout << out2 << endl;
+  }
   return 0;
 }

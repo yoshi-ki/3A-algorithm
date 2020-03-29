@@ -294,6 +294,20 @@ struct Sieve {
 
 
 int main() {
-  
+  ll k;
+  cin >> k;
+  ll n;
+  cin >> n;
+  ll diffmax = 0;
+  vector<ll> a(n);
+  rep(i,n){
+    cin >> a[i];
+  }
+  rep(i,n-1){
+    ll diff = a[i+1] - a[i];
+    diffmax = max(diff,diffmax);
+  }
+  diffmax = max(k-a[n-1]+a[0],diffmax);
+  cout << k-diffmax << endl;
   return 0;
 }
